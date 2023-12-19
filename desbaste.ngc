@@ -1,0 +1,35 @@
+; Author: jthornton
+
+(info: desbaste)
+o<desbaste> sub
+	#<Material_Dia> =  #1 (=10 Diametro do Material)
+   	#<Depth_Cut> =  #2 (=1 Profundidade por passada)
+	#<SurfaceSpeed> =  #3 (=1000 Velocidade da maquina)
+    	#<FeedRate> =  #4 (=100 Velocidade de corte)
+     	#<Max_RPM> =  #5 (=1500 RPM eixo arvore)
+  	#<Z_EndOfCut> =  #6 (=-5 Final do corte)
+	#<Z_StartOfCut> =  #7 (=0 Comeco do corte)
+ 	#<RToolNumber> = #8 (=1 Ferramenta)
+	#<Coolant> = #9 (=9 Refrigerante On=8, Off=9)
+
+T#<RToolNumber> M6
+; G43: toolength offset
+; G7:  diameter mode
+; G96: constant surface speed
+G43 G7 G96 D#<Max_RPM> S#<SurfaceSpeed>
+
+; Turn the OD
+M3 M#<Coolant> ; spindle cw, coolant on/off
+
+G21 G54 G18
+F400
+
+	G72 Q100 X1 Z1 D0.5 I1 R0.3
+	G70 Q100 X1 Z1 D0.5 P2
+
+M2
+
+M5 M9               ; stop spindle, all coolant off
+G49                 ; cancel tool length offset compensation
+G53 G0 X0 Z0        ; move in machine coordinates
+o<desbaste> endsub
