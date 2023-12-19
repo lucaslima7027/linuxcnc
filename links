@@ -1,0 +1,14 @@
+http://linuxcnc.org/docs/2.8/html/getting-started/getting-linuxcnc.html#cha:Installing-RTAI
+https://forum.linuxcnc.org/21-axis/29735-axis-modifications
+https://extensions.gnome.org/extension/1465/desktop-icons/
+https://www.vivaolinux.com.br/topico/Debian/Erro-ao-montar-HD-externo
+
+porta paralela nao funcionando
+https://forums.centos.org/viewtopic.php?t=50205&start=10
+
+1_Abrir o terminal
+2_ digitar # sudo nano /etc/udev/rules.d/99-parallel-PCI-card.rules 
+3_inserir a senha do usuario
+4_ colar o seguinte comando SUBSYSTEM=="pci",ATTR{idVendor}=="1fd4",ATTR{idProduct}=="1999",
+        RUN+="/sbin/modprobe -q parport_pc io=0xe800 irq=10,auto"
+5_ ctrl + o para salvar enter para confirmar e ctrl + x para sair

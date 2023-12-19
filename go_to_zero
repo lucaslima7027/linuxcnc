@@ -1,0 +1,19 @@
+def goto_home(axis):
+    if s.interp_state == linuxcnc.INTERP_IDLE:
+        home = inifile.find('JOINT_' + str(inifile.find('TRAJ', 'COORDINATES').upper().index(axis)), 'HOME')
+        mode = s.task_mode
+        if s.task_mode != linuxcnc.MODE_MDI:
+            c.mode(linuxcnc.MODE_MDI)
+        c.mdi('g0z5')
+	c.mdi('g0x0y0')
+	c.mdi('g0z0')
+
+# make a button to home y axis
+root_window.tk.call('button','.pane.top.tabs.fmanual.homey','-text','Go To Zero','-command','goto_home Y','-height','2')
+
+# place the button
+root_window.tk.call('grid','.pane.top.tabs.fmanual.homey','-column','1','-row','7','-columnspan','2','-padx','4','-sticky','w')
+
+# any function called from Tcl needs to be added to TclCommands
+TclCommands.goto_home = goto_home
+commands = TclCommands(root_window)

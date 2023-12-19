@@ -1,0 +1,48 @@
+; Author: jthornton
+
+(info: faceamento)
+o<faceamento> sub
+	#<Material_Dia> =  #1 (=10 Diametro do Material)
+   	#<Depth_Cut> =  #2 (=1 Profundidade por passada)
+	#<SurfaceSpeed> =  #3 (=1000 Velocidade da maquina)
+    	#<FeedRate> =  #4 (=100 Velocidade de corte)
+     	#<Max_RPM> =  #5 (=1500 RPM eixo arvore)
+  	#<Z_EndOfCut> =  #6 (=-5 Final do corte)
+	#<Z_StartOfCut> =  #7 (=0 Comeco do corte)
+ 	#<RToolNumber> = #8 (=1 Ferramenta)
+	#<Coolant> = #9 (=9 Refrigerante On=8, Off=9)
+
+T#<RToolNumber> M6
+; G43: toolength offset
+; G7:  diameter mode
+; G96: constant surface speed
+G43 G7 G96 D#<Max_RPM> S#<SurfaceSpeed>
+
+; Turn the OD
+M3 M#<Coolant> ; spindle cw, coolant on/off
+G0 X#<Material_Dia> Z#<Z_StartOfCut>
+#<Current_Z>=#<Z_StartOfCut>
+#<Final_Dia> = [-2]
+
+o100 while [#<Current_Z> gt #<Z_EndOfCut>]
+
+O101   if [#<Current_Z>-#<Depth_Cut> gt #<Z_EndOfCut>]
+         #<Current_Z>=[#<Current_Z>-#<Depth_Cut>]
+O101   else
+         #<Current_Z>=#<Z_EndOfCut>
+O101   endif
+
+       X#<Material_Dia>
+       Z#<Current_Z>
+       G1 X#<Final_Dia> F#<FeedRate>
+       G0 Z[#<Current_Z>+1]
+       X#<Material_Dia>
+
+o100 endwhile
+
+G0 X[#<Material_Dia>+1]
+M5 M9               ; stop spindle, all coolant off
+Z#<Z_StartOfCut>
+G49                 ; cancel tool length offset compensation
+G53 G0 X0 Z0        ; move in machine coordinates
+o<faceamento> endsub
