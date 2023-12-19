@@ -1,3 +1,4 @@
+# rename this file to .axisrc
 def goto_home(axis):
     if s.interp_state == linuxcnc.INTERP_IDLE:
         home = inifile.find('JOINT_' + str(inifile.find('TRAJ', 'COORDINATES').upper().index(axis)), 'HOME')
