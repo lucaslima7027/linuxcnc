@@ -1,4 +1,5 @@
-# rename this file to .axisrc
+# renomeie este arquivo para .axisrc e cole no seu diretório '/home/seu_nome_de_usuário/'
+# rename this file to .axisrc and paste into your '/home/your_username/' directory
 def goto_home(axis):
     if s.interp_state == linuxcnc.INTERP_IDLE:
         home = inifile.find('JOINT_' + str(inifile.find('TRAJ', 'COORDINATES').upper().index(axis)), 'HOME')
