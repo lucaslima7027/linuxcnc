@@ -1,12 +1,10 @@
 o100 sub
 
-g0x26z2
-g1z0 f100
-x30z-2
-z-20
-z-50x50
-z-80
-x63
-M30
+	G0 X0 Z0
+	G1 X5 Z-2
+	Z-10
+	Z-15 X10
+	Z-20
+	X15
 
 o100 endsub
