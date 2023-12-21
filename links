@@ -3,12 +3,28 @@ https://forum.linuxcnc.org/21-axis/29735-axis-modifications
 https://extensions.gnome.org/extension/1465/desktop-icons/
 https://www.vivaolinux.com.br/topico/Debian/Erro-ao-montar-HD-externo
 
-porta paralela nao funcionando
+porta paralela PCI não funcionando
 https://forums.centos.org/viewtopic.php?t=50205&start=10
 
 1_Abrir o terminal
-2_ digitar # sudo nano /etc/udev/rules.d/99-parallel-PCI-card.rules 
+2_ digitar sudo nano /etc/udev/rules.d/99-parallel-PCI-card.rules 
 3_inserir a senha do usuario
-4_ colar o seguinte comando SUBSYSTEM=="pci",ATTR{idVendor}=="1fd4",ATTR{idProduct}=="1999",
-        RUN+="/sbin/modprobe -q parport_pc io=0xe800 irq=10,auto"
+4_ colar o seguinte comando 
+SUBSYSTEM=="pci",ATTR{idVendor}=="1fd4",ATTR{idProduct}=="1999",
+        RUN+="/sbin/modprobe -q parport_pc io=0xd100 irq=10,auto"
 5_ ctrl + o para salvar enter para confirmar e ctrl + x para sair
+Obs: Talvez seja necessário você alterar o campo io do passo 4 e colocar o endereço da sua PCI no meu caso ficou io=0xd100
+
+English
+PCI Paraport don't work
+https://forums.centos.org/viewtopic.php?t=50205&start=10
+
+1_Open terminal
+2_Type sudo nano /etc/udev/rules.d/99-parallel-PCI-card.rules
+3_Enter your password
+4_Paste the following 
+SUBSYSTEM=="pci",ATTR{idVendor}=="1fd4",ATTR{idProduct}=="1999",
+        RUN+="/sbin/modprobe -q parport_pc io=0xe800 irq=10,auto"
+5_Press ctrl+o to save, return to confirm and ctrl+x to quit
+
+You may need to change the io value in step 4 for your PCI address in my case it's io=0xd100
