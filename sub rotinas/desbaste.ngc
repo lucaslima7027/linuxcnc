@@ -2,24 +2,25 @@
 
 (info: desbaste)
 o<desbaste> sub
-	#<Material_Dia> =  #1 (=10 Diametro do Material)
-   	#<Depth_Cut> =  #2 (=1 Profundidade por passada)
-	#<SurfaceSpeed> =  #3 (=1000 Velocidade da maquina)
-    #<FeedRate> =  #4 (=100 Velocidade de corte)
-     #<Max_RPM> =  #5 (=1500 RPM eixo arvore)
-  	#<Z_EndOfCut> =  #6 (=-5 Final do corte)
-	#<Z_StartOfCut> =  #7 (=0 Comeco do corte)
- 	#<RToolNumber> = #8 (=1 Ferramenta)
-	#<Coolant> = #9 (=9 Refrigerante On=8, Off=9)
-	#<perfil_peca> = #10 (=100 Perfil peca)
+	#<Material_Dia> =  	#1 (=10 Diametro do Material)
+   	#<Depth_Cut> =  	#2 (=1 Profundidade por passada)
+   	#<sob_metal> = 		#3 (=0.5 Sob metal)
+   	#<passes_acab> =	#4 (=1 Passes acabamento)
+	#<SurfaceSpeed> =  	#5 (=1000 Velocidade da maquina)
+    #<FeedRate> =  		#6 (=100 Velocidade de corte)
+     #<Max_RPM> =  		#7 (=1500 RPM eixo arvore)
+ 	#<RToolNumber> = 	#8 (=1 Ferramenta)
+	#<Coolant> = 		#9 (=8 Refrigerante On=8, Off=9)
+	#<perfil_peca> = 	#10 (=100 Perfil peca)
 
 T#<RToolNumber> M6
 G54 G18 G21
-F400
+F#<FeedRate>
+M3 S#<Max_RPM>
 
-G40 T1M6G43
-G71.1 Q#<perfil_peca> X15 Z0 D1 I1 R0.3
-G70 Q100 X15 Z3.041 E0 D0.5 P2
+G40 T#<RToolNumber>M6G43
+G71.1 Q#<perfil_peca> X#<Material_Dia> Z0 D#<sob_metal> I#<Depth_Cut> R1
+G70 Q#<perfil_peca> X#<Material_Dia> Z0 E0 D#<sob_metal> P#<passes_acab>
 
 
 M2
