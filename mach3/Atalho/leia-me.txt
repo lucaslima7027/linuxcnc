@@ -1,0 +1,4 @@
+1_Copiar e colar o atalho onde deseja
+2_Clicar com o botão direito selecionar "propriedades"
+3_Apagar "nome_do_seu_perfil_mach3" e preencher com o nome do seu perfil .xml que voce colou na pasta do mach3
+4_renomei o atalho clicando com o botão direito e selecionando renomear 
