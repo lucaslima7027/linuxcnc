@@ -1,0 +1,109 @@
+'********************************************************
+'*
+'*   Macro para troca automática de ferramenta
+'*   Automatic Tool Change macro
+'* ***********************************************************************
+
+Sub Main()         'Define variables
+
+OldTool = GetOEMDRO(1200)   
+x = GetToolChangeStart( 0 )
+y = GetToolChangeStart( 1 )
+z = GetToolChangeStart( 2 )
+a = GetToolChangeStart( 3 )
+b = GetToolChangeStart( 4 )
+c = GetToolChangeStart( 5 )
+tool = GetSelectedTool()
+NewTool = tool
+
+'alterar conforme a necessidade
+MaxToolNum = 10                 'Num maximo de ferramentas
+ToolDown   = -5                'altura onde ira pegar a ferramenta
+PosSec      = 10                'posicao segura
+'alterar conforme a necessidade
+
+If NewTool = OldTool Then
+x=MsgBox("Ferramenta " & GetSelectedTool() &" ja esta selecionada",0,"Atencao")
+   Exit Sub
+End If
+While NewTool > MaxToolNum
+NewTool = Question ("Insira um numero de ferramenta entre 1 e 10") 
+Wend
+Code "G0 G53 Z" & PosSec           'eixo z vai para posicao segura   
+While IsMoving()
+Wend
+Call MovePos(OldTool)           'maquina se move para posicao para guardar a ferramenta atual
+While IsMoving()
+Wend
+Code "G53 Z" & ToolDown         'eixo z desce para onde ira soltar a ferramenta
+While IsMoving()
+Wend
+Call EncaixeFerramenta()        'encaixa a ferramenta no porta ferramenta
+While IsMoving()
+Wend
+ActivateSignal(Output1)         'libera a ferramenta
+Code "G4 P1.0"
+Code "G53 Z" & PosSec        	   'eixo z sobe para posicao segura
+While IsMoving()
+Wend
+Call MovePos(NewTool)           'maquina se move para posicao da nova ferramenta
+While IsMoving()
+Wend
+Call EncaixeFerramenta()        'vai para posicao de encaixe da ferramenta
+While IsMoving()
+Wend
+Code "G53 Z" & ToolDown          'eixo z desce para onde ira pegar a ferramenta
+While IsMoving()
+Wend
+DeActivateSignal(Output1)        
+Code "G4 P1.0"		           'segura a nova ferramenta
+Call DesencaixeFerramenta()      'desencaixa ferramenta do porta ferramenta
+While IsMoving()
+Wend
+Code "G53 Z" & PosSec		      'eixo z sobe para posicao segura   
+Code "G53X0Y0"        		      'maquina volta para o home  
+While IsMoving()
+Wend
+Call SetUserDRO (1200,NewTool)
+SetCurrentTool( NewTool )
+End Sub
+
+Sub MovePos(ByVal ToolNumber As Integer)
+
+'alterar conforme a necessidade
+Select Case ToolNumber      
+       Case Is = 1          'posicao ferramenta 1
+         Code "G00 G53 x5y10"
+       Case Is = 2          'posicao ferramenta 2
+         Code "G00 G53 x5y20"
+       Case Is = 3          'posicao ferramenta 3
+         Code "G00 G53 x5y30"
+       Case Is = 4          'posicao ferramenta 4
+         Code "G00 G53 x5y40"
+       Case Is = 5          'posicao ferramenta 5
+         Code "G00 G53 x5y50"
+      Case Is = 6          'posicao ferramenta 6
+         Code "G00 G53 x5y60"
+       Case Is = 7          'posicao ferramenta 7
+         Code "G00 G53 x5y70"
+       Case Is = 8          'posicao ferramenta 8
+         Code "G00 G53 x5y80"
+       Case Is = 9          'posicao ferramenta 9
+         Code "G00 G53 x5y90"
+       Case Is = 10          'posicao ferramenta 10
+         Code "G00 G53 x5y100"
+End Select
+'alterar conforme a necessidade
+
+End Sub
+
+Sub EncaixeFerramenta()
+   Code "G00 G53 x0"
+End Sub
+
+Sub DesencaixeFerramenta()
+   Code "G00 G53 x5"
+End Sub
+
+
+Main        
