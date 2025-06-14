@@ -1,0 +1,4 @@
+T1 P1 X0 Y0 Z0 D0 ;1/8 end mill 
+T2 P2 Z0 D0 ;1/16 end mill 
+T3 P3 Z0 D0 ;#7 tap drill 
+T0 P0 Z0 ;big tool number 
